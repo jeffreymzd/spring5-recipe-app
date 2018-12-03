@@ -1,10 +1,12 @@
 package guru.springframework.domain;
 
 import javax.persistence.*;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Recipe extends BaseEntity {
+public class Recipe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -14,6 +16,7 @@ public class Recipe extends BaseEntity {
     private Integer servings;
     private String source;
     private String url;
+    @Lob
     private String directions;
     private Byte[] image;
     @Enumerated(value = EnumType.STRING)
@@ -27,13 +30,45 @@ public class Recipe extends BaseEntity {
     // note entry will also be removed when this recipe entry is removed -- CascadeType.ALL
     // no need to set up repository
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
-    private Set<Ingredient> ingredients;
+    private Set<Ingredient> ingredients = new HashSet<>();
 
     @ManyToMany
     @JoinTable(name = "recipe_category" // specify join table name
             , joinColumns = @JoinColumn(name = "recipe_id") // specify join column name 1
             , inverseJoinColumns = @JoinColumn(name = "category_id")) // specify join column name 2
-    private Set<Category> categories;
+    private Set<Category> categories = new HashSet<>();
+
+    public Note getNote() {
+        return note;
+    }
+
+    public void setNote(Note note) {
+        this.note = note;
+    }
+
+    public Set<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(Set<Ingredient> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getDescription() {
         return description;
@@ -105,5 +140,24 @@ public class Recipe extends BaseEntity {
 
     public void setDifficulty(Difficulty difficulty) {
         this.difficulty = difficulty;
+    }
+
+    @Override
+    public String toString() {
+        return "Recipe{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", prepTime=" + prepTime +
+                ", cookTime=" + cookTime +
+                ", servings=" + servings +
+                ", source='" + source + '\'' +
+                ", url='" + url + '\'' +
+                ", directions='" + directions + '\'' +
+                ", image=" + Arrays.toString(image) +
+                ", difficulty=" + difficulty +
+                ", note=" + note +
+                ", ingredients=" + ingredients +
+                ", categories=" + categories +
+                '}';
     }
 }
