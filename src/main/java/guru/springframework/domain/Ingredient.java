@@ -1,13 +1,12 @@
 package guru.springframework.domain;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToOne;
 import java.math.BigDecimal;
 
 @Entity
-public class Ingredient {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long Id;
+public class Ingredient extends BaseEntity {
     private String description;
     private BigDecimal amount;
     @OneToOne(fetch = FetchType.EAGER)
@@ -22,14 +21,6 @@ public class Ingredient {
         this.description = description;
         this.amount = amount;
         this.uom = uom;
-    }
-
-    public Long getId() {
-        return Id;
-    }
-
-    public void setId(Long id) {
-        Id = id;
     }
 
     public String getDescription() {

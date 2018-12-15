@@ -6,10 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Recipe {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Recipe extends BaseEntity {
     private String description;
     private Integer prepTime;
     private Integer cookTime;
@@ -32,7 +29,7 @@ public class Recipe {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
     private Set<Ingredient> ingredients = new HashSet<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "recipe_category" // specify join table name
             , joinColumns = @JoinColumn(name = "recipe_id") // specify join column name 1
             , inverseJoinColumns = @JoinColumn(name = "category_id")) // specify join column name 2
@@ -54,20 +51,18 @@ public class Recipe {
         this.ingredients = ingredients;
     }
 
+    public Recipe addIngredient(Ingredient ingredient) {
+        ingredient.setRecipe(this);
+        this.ingredients.add(ingredient);
+        return this;
+    }
+
     public Set<Category> getCategories() {
         return categories;
     }
 
     public void setCategories(Set<Category> categories) {
         this.categories = categories;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getDescription() {
@@ -145,7 +140,7 @@ public class Recipe {
     @Override
     public String toString() {
         return "Recipe{" +
-                "id=" + id +
+                "id=" + super.getId() +
                 ", description='" + description + '\'' +
                 ", prepTime=" + prepTime +
                 ", cookTime=" + cookTime +

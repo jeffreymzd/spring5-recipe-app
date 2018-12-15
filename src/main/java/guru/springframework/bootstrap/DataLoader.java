@@ -9,7 +9,9 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Component
 public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
@@ -90,6 +92,15 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         Ingredient black_pepper = new Ingredient("freshly grated black pepper", BigDecimal.ONE, dashUom);
         Ingredient tomato = new Ingredient("ripe tomato, seeds and pulp removed, chopped", BigDecimal.valueOf(2), eachUom);
 
+        recipe_guacamole.addIngredient(avocados)
+                .addIngredient(kosher_salt)
+                .addIngredient(lime_or_lemon_juice)
+                .addIngredient(onion)
+                .addIngredient(chile)
+                .addIngredient(cilantro)
+                .addIngredient(black_pepper)
+                .addIngredient(tomato);
+
         // 2. Spicy Grilled Chicken Taco
         Ingredient chili_powder = new Ingredient("ancho chili powder", BigDecimal.valueOf(2), teaSpoonUom);
         Ingredient dried_oregano = new Ingredient("dried oregano", BigDecimal.ONE, teaSpoonUom);
@@ -110,6 +121,26 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         Ingredient cilantro2 = new Ingredient("Roughly chopped cilantro", null, null);
         Ingredient sour_cream = new Ingredient("sour sour_cream thinned with 1/4 cup milk", BigDecimal.valueOf(1 / 2d), cupUom);
         Ingredient lime = new Ingredient("lime, cut into wedges", BigDecimal.ONE, null);
+
+        recipe_grilled_chicken_taco.addIngredient(chili_powder)
+                .addIngredient(dried_oregano)
+                .addIngredient(dried_cumin)
+                .addIngredient(sugar)
+                .addIngredient(salt)
+                .addIngredient(garlic)
+                .addIngredient(orange_zest)
+                .addIngredient(orange_juice)
+                .addIngredient(olive_oil)
+                .addIngredient(chicken_thigh)
+                .addIngredient(corn_tortillas)
+                .addIngredient(baby_arugula)
+                .addIngredient(avocados2)
+                .addIngredient(radish)
+                .addIngredient(cherry_tomato)
+                .addIngredient(red_onion)
+                .addIngredient(cilantro2)
+                .addIngredient(sour_cream)
+                .addIngredient(lime);
 
         // Recipe of Perfect Guacamole
         recipe_guacamole.setDescription("Perfect Guacamole");
@@ -132,17 +163,6 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
                 "To extend a limited supply of avocados, add either sour cream or cottage cheese to your guacamole dip. Purists may be horrified, but so what? It tastes great.\n" +
                 "For a deviled egg version with guacamole, try our Guacamole Deviled Eggs!");
 
-        Set<Ingredient> guac_ingredients = new HashSet<>();
-        guac_ingredients.add(avocados);
-        guac_ingredients.add(lime_or_lemon_juice);
-        guac_ingredients.add(onion);
-        guac_ingredients.add(kosher_salt);
-        guac_ingredients.add(chile);
-        guac_ingredients.add(cilantro);
-        guac_ingredients.add(black_pepper);
-        guac_ingredients.add(tomato);
-
-        recipe_guacamole.setIngredients(guac_ingredients);
         recipe_guacamole.getCategories().add(americanCategory);
         recipe_guacamole.getCategories().add(mexicanCategory);
         recipe_guacamole.setNote(guacNote);
@@ -166,28 +186,6 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         Note tacoNote = new Note();
         tacoNote.setDescription("Look for ancho chile powder with the Mexican ingredients at your grocery store, on buy it online. (If you can't find ancho chili powder, you replace the ancho chili, the oregano, and the cumin with 2 1/2 tablespoons regular chili powder, though the flavor won't be quite the same.)");
 
-        Set<Ingredient> grill_chick_ingredients = new HashSet<>();
-        grill_chick_ingredients.add(chili_powder);
-        grill_chick_ingredients.add(dried_oregano);
-        grill_chick_ingredients.add(dried_cumin);
-        grill_chick_ingredients.add(sugar);
-        grill_chick_ingredients.add(salt);
-        grill_chick_ingredients.add(garlic);
-        grill_chick_ingredients.add(orange_zest);
-        grill_chick_ingredients.add(orange_juice);
-        grill_chick_ingredients.add(olive_oil);
-        grill_chick_ingredients.add(chicken_thigh);
-        grill_chick_ingredients.add(corn_tortillas);
-        grill_chick_ingredients.add(baby_arugula);
-        grill_chick_ingredients.add(avocados2);
-        grill_chick_ingredients.add(radish);
-        grill_chick_ingredients.add(cherry_tomato);
-        grill_chick_ingredients.add(red_onion);
-        grill_chick_ingredients.add(cilantro2);
-        grill_chick_ingredients.add(sour_cream);
-        grill_chick_ingredients.add(lime);
-
-        recipe_grilled_chicken_taco.setIngredients(grill_chick_ingredients);
         recipe_grilled_chicken_taco.getCategories().add(mexicanCategory);
         recipe_grilled_chicken_taco.getCategories().add(americanCategory);
         recipe_grilled_chicken_taco.setNote(tacoNote);

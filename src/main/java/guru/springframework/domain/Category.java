@@ -1,26 +1,15 @@
 package guru.springframework.domain;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Category {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Category extends BaseEntity {
     private String description;
     @ManyToMany(mappedBy = "categories") // property on the other side of the relationship
     private Set<Recipe> recipes = new HashSet<>();
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getDescription() {
         return description;
@@ -41,7 +30,7 @@ public class Category {
     @Override
     public String toString() {
         return "Category{" +
-                "id=" + id +
+                "id=" + super.getId() +
                 ", description='" + description + '\'' +
                 ", recipes=" + recipes +
                 '}';
