@@ -1,26 +1,26 @@
 package guru.springframework.domain;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import javax.persistence.Entity;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 
+@Data
+@EqualsAndHashCode(exclude = {"recipe"})
 @Entity
 public class Note extends BaseEntity {
-    @Lob
-    private String description;
-
-    public String getDescription() {
-        return description;
+    public Note() {
     }
 
-    public void setDescription(String description) {
+    public Note(Recipe recipe, String description) {
+        this.recipe = recipe;
         this.description = description;
     }
 
-    @Override
-    public String toString() {
-        return "Note{" +
-                "id=" + super.getId() +
-                ", description='" + description + '\'' +
-                '}';
-    }
+    @ManyToOne
+    private Recipe recipe;
+    @Lob
+    private String description;
 }

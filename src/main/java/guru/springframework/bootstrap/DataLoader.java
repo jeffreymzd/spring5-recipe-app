@@ -4,6 +4,7 @@ import guru.springframework.domain.*;
 import guru.springframework.repositories.CategoryRepository;
 import guru.springframework.repositories.RecipeRepository;
 import guru.springframework.repositories.UnitOfMeasureRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
+@Slf4j
 public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
     private RecipeRepository recipeRepository;
     private CategoryRepository categoryRepository;
@@ -26,6 +28,7 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
     }
 
     private List<Recipe> getRecipeList() {
+        log.debug("Start loading recipe objects...");
         List<Recipe> recipesList = new ArrayList<>(2);
         Recipe recipe_guacamole = new Recipe();
         Recipe recipe_grilled_chicken_taco = new Recipe();
@@ -156,16 +159,16 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
                 "4 Cover with plastic and chill to store: Place plastic wrap on the surface of the guacamole cover it and to prevent air reaching it. (The oxygen in the air causes oxidation which will turn the guacamole brown.) Refrigerate until ready to serve.\n" +
                 "Chilling tomatoes hurts their flavor, so if you want to add chopped tomato to your guacamole, add it just before serving.");
 
-        Note guacNote = new Note();
-        guacNote.setDescription("For a very quick guacamole just take a 1/4 cup of salsa and mix it in with your mashed avocados.\n" +
-                "Feel free to experiment! One classic Mexican guacamole has pomegranate seeds and chunks of peaches in it (a Diana Kennedy favorite). Try guacamole with added pineapple, mango, or strawberries (see our Strawberry Guacamole).\n" +
-                "The simplest version of guacamole is just mashed avocados with salt. Don't let the lack of availability of other ingredients stop you from making guacamole.\n" +
-                "To extend a limited supply of avocados, add either sour cream or cottage cheese to your guacamole dip. Purists may be horrified, but so what? It tastes great.\n" +
-                "For a deviled egg version with guacamole, try our Guacamole Deviled Eggs!");
+        Note guacNote = new Note(recipe_guacamole,
+                "For a very quick guacamole just take a 1/4 cup of salsa and mix it in with your mashed avocados.\n" +
+                        "Feel free to experiment! One classic Mexican guacamole has pomegranate seeds and chunks of peaches in it (a Diana Kennedy favorite). Try guacamole with added pineapple, mango, or strawberries (see our Strawberry Guacamole).\n" +
+                        "The simplest version of guacamole is just mashed avocados with salt. Don't let the lack of availability of other ingredients stop you from making guacamole.\n" +
+                        "To extend a limited supply of avocados, add either sour cream or cottage cheese to your guacamole dip. Purists may be horrified, but so what? It tastes great.\n" +
+                        "For a deviled egg version with guacamole, try our Guacamole Deviled Eggs!");
 
         recipe_guacamole.getCategories().add(americanCategory);
         recipe_guacamole.getCategories().add(mexicanCategory);
-        recipe_guacamole.setNote(guacNote);
+        recipe_guacamole.addNote(guacNote);
 
         // Recipe of Grilled Chicken Taco
         recipe_grilled_chicken_taco.setDescription("Spicy Grilled Chicken Tacos");
@@ -183,12 +186,13 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
                 "Wrap warmed tortillas in a tea towel to keep them warm until serving.\n" +
                 "5 Assemble the tacos: Slice the chicken into strips. On each tortilla, place a small handful of arugula. Top with chicken slices, sliced avocado, radishes, tomatoes, and onion slices. Drizzle with the thinned sour cream. Serve with lime wedges.");
 
-        Note tacoNote = new Note();
-        tacoNote.setDescription("Look for ancho chile powder with the Mexican ingredients at your grocery store, on buy it online. (If you can't find ancho chili powder, you replace the ancho chili, the oregano, and the cumin with 2 1/2 tablespoons regular chili powder, though the flavor won't be quite the same.)");
+        Note tacoNote = new Note(recipe_grilled_chicken_taco,
+                "Look for ancho chile powder with the Mexican ingredients at your grocery store, on buy it online." +
+                        "(If you can't find ancho chili powder, you replace the ancho chili, the oregano, and the cumin with 2 1/2 tablespoons regular chili powder, though the flavor won't be quite the same.)");
 
         recipe_grilled_chicken_taco.getCategories().add(mexicanCategory);
         recipe_grilled_chicken_taco.getCategories().add(americanCategory);
-        recipe_grilled_chicken_taco.setNote(tacoNote);
+        recipe_grilled_chicken_taco.addNote(tacoNote);
 
         // Collects final recipes
 
@@ -200,5 +204,6 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         recipeRepository.saveAll(getRecipeList());
+        log.debug("Data persisted!");
     }
 }
