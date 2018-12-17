@@ -1,18 +1,19 @@
 package guru.springframework.repositories;
 
 import guru.springframework.domain.UnitOfMeasure;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 
 // Integration Test -> IT
-@RunWith(SpringRunner.class)
+//@RunWith(SpringRunner.class) // JUnit4
+@ExtendWith(SpringExtension.class)
 @DataJpaTest
 public class UnitOfMeasureRepositoryIT {
     @Autowired
