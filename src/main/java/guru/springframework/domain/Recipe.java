@@ -10,6 +10,9 @@ import java.util.Set;
 @Entity
 @Table(name = "recipes")
 public class Recipe extends BaseEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private String description;
     private Integer prepTime;
     private Integer cookTime;
