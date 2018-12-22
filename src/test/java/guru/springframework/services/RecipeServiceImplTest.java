@@ -21,7 +21,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class RecipeServiceImplTest {
 
-    public static final String DESCRIPTION = "Guacmole";
+    public static final String DESCRIPTION = "Guacamole";
     @Mock
     RecipeRepository recipeRepository;
     @InjectMocks
