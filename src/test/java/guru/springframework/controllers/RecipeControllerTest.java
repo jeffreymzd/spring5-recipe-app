@@ -26,12 +26,16 @@ public class RecipeControllerTest {
     RecipeService recipeService;
 
     RecipeController controller;
+    MockMvc mockMvc;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
         controller = new RecipeController(recipeService);
+        mockMvc = MockMvcBuilders.standaloneSetup(controller)
+                .setControllerAdvice(new ControllerExceptionHandler())
+                .build();
     }
 
     @Test
@@ -39,8 +43,6 @@ public class RecipeControllerTest {
 
         Recipe recipe = new Recipe();
         recipe.setId(1L);
-
-        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
 
         when(recipeService.findById(anyLong())).thenReturn(recipe);
 
@@ -52,7 +54,6 @@ public class RecipeControllerTest {
     @Test
     public void testGetRecipeNotFound() throws Exception {
 
-        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
         when(recipeService.findById(anyLong())).thenThrow(NotFoundException.class);
 
         mockMvc.perform(get("/recipe/show/4"))
@@ -62,7 +63,7 @@ public class RecipeControllerTest {
 
     @Test
     public void testGetRecipeNumberFormatException() throws Exception {
-        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+
         when(recipeService.findById(anyLong())).thenThrow(NumberFormatException.class);
 
         mockMvc.perform(get("/recipe/show/sdfq"))
