@@ -2,8 +2,7 @@ package guru.springframework.controllers;
 
 import guru.springframework.exceptions.NotFoundException;
 import guru.springframework.services.RecipeService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,10 +15,9 @@ import org.springframework.web.servlet.ModelAndView;
 /**
  * Created by jt on 6/19/17.
  */
+@Slf4j
 @Controller
 public class RecipeController {
-
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
     private final RecipeService recipeService;
 
     public RecipeController(RecipeService recipeService) {
